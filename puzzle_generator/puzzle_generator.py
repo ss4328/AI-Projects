@@ -25,7 +25,7 @@ import random
 import collections
 
 occupiedLocs = {}
-m, n = 12, 12
+m, n = 11, 11
 puzzleAttempt = 1
 # wordsGiven = ["Admissible", "Agent", "Backtrack", "Cannibal", "Deadend", "Global", "Graphsearch", "Heuristic", "Hill",
 #               "LISP", "Local", "Missionary", "Optimum", "Search", "Symmetry"]
@@ -71,9 +71,10 @@ Returns false for:
 Returns true if (1), (2), and (3) are not met
 '''
 def precondition(rule, state):
-    grid = state[0]
-    words = state[1]
-    word, row, col, dh, dv = rule
+    grid = state[0].copy()
+    words = state[1].copy()
+
+    word, row, col, dh, dv = rule.copy()
     # for j in range(len(word)):
     if (dh == 0 and dv==0):
         return False
@@ -381,36 +382,6 @@ Base cases: cycle                       StateList contains the state being teste
 Recursive case: Attach path to path list
 
 '''
-# def backtrack(stateList):
-#     state = stateList[0]                    #current State
-#
-#     if(inRestOfList(state,stateList)):                  #cycle
-#         return 'FAILED-1'
-#     if(isDeadend(state)):
-#         return 'FAILED-2'
-#     if(goal(state)):
-#         return None
-#     if(len(stateList)>depthBound):
-#         return 'FAILED-3'
-#
-#     ruleSet = generateRules2(state)
-#
-#     if(ruleSet==None):
-#         return 'FAILED-4'
-#
-#     for r in ruleSet:
-#         describeRule(r)
-#         # visitedStates = [state] + visitedStates
-#         newState = applyRule(r,state)
-#         describeState(newState)
-#         newStateList = [newState] + stateList
-#         # newStateList = stateList.insert(0,newState)
-#         path = backtrack(newStateList)
-#         if path != "FAILED-1" and path != "FAILED-2" and path != "FAILED-3" and path != "FAILED-4" and path != "FAILED-5":
-#             return path.append(r)
-#
-#     return 'FAILED-5'
-
 def backtrack(stateList):
     state = stateList[0]                    #current State
 
@@ -428,10 +399,8 @@ def backtrack(stateList):
     if(ruleSet==None):
         return 'FAILED-4'
 
-    while (len(ruleSet) > 0):
-        random.seed()
-        r = random.randint(0, len(ruleSet) - 1)
-        r = ruleSet[r]
+    for r in ruleSet:
+        describeRule(r)
         # visitedStates = [state] + visitedStates
         newState = applyRule(r,state)
         describeState(newState)
@@ -442,6 +411,38 @@ def backtrack(stateList):
             return path.append(r)
 
     return 'FAILED-5'
+
+# def backtrack(stateList):
+#     state = stateList[0]                    #current State
+#
+#     if(inRestOfList(state,stateList)):                  #cycle
+#         return 'FAILED-1'
+#     if(isDeadend(state)):
+#         return 'FAILED-2'
+#     if(goal(state)):
+#         return None
+#     if(len(stateList)>depthBound):
+#         return 'FAILED-3'
+#
+#     ruleSet = generateRules2(state)
+#
+#     if(ruleSet==None):
+#         return 'FAILED-4'
+#
+#     while (len(ruleSet) > 0):
+#         random.seed()
+#         r = random.randint(0, len(ruleSet) - 1)
+#         r = ruleSet[r]
+#         # visitedStates = [state] + visitedStates
+#         newState = applyRule(r,state)
+#         describeState(newState)
+#         newStateList = [newState] + stateList
+#         # newStateList = stateList.insert(0,newState)
+#         path = backtrack(newStateList)
+#         if path != "FAILED-1" and path != "FAILED-2" and path != "FAILED-3" and path != "FAILED-4" and path != "FAILED-5":
+#             return path.append(r)
+#
+#     return 'FAILED-5'
 
 
 
